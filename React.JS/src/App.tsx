@@ -1,10 +1,11 @@
 
 import { add, format } from "date-fns";
+import DisplayDate from "./DisplayDate";
 
 function App() {
   return (
     <>
-  Today's Date: {format(new Date(), "do MMMM yyyy")}
+      <DisplayDate />
     </>
   )
 }
