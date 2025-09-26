@@ -10,7 +10,12 @@ interface SquareProps {
 
 function Square({ value, onSquareClick }: SquareProps) {
   return (
-    <button className="square" onClick={onSquareClick}>
+    <button 
+      className="w-24 h-24 text-4xl font-bold border border-gray-300 
+                 bg-white hover:bg-gray-100 
+                 flex items-center justify-center cursor-pointer"
+      onClick={onSquareClick}
+    >
       {value}
     </button>
   );
@@ -41,24 +46,22 @@ function Board({ xIsNext, squares, onPlay }: BoardProps) {
   }
 
   return (
-    <>
-      <div className="status">{status}</div>
-      <div className="board-row">
+    <div className="flex flex-col items-center">
+      <div className="text-xl font-medium text-gray-800 mb-6">
+        {status}
+      </div>
+      <div className="grid grid-cols-3 gap-1">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
         <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
-      </div>
-      <div className="board-row">
         <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
         <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
         <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-      </div>
-      <div className="board-row">
         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
       </div>
-    </>
+    </div>
   );
 }
 
@@ -78,31 +81,67 @@ export default function Game() {
     setCurrentMove(nextMove);
   }
 
-  const moves = history.map((squares, move) => {
+  function resetGame() {
+    setHistory([Array(9).fill(null)]);
+    setCurrentMove(0);
+  }
+
+  const moves = history.map((_, move) => {
     let description: string;
     if (move > 0) {
-      description = 'Go to move #' + move;
+      description = `Move #${move}`;
     } else {
-      description = 'Go to game start';
+      return null; // Skip "Game Start" from the list
     }
+    const isCurrentMove = move === currentMove;
     return (
       <li key={move}>
-        <button style={{
-          fontSize: '1.5rem',
-          marginBottom: '0.5rem',
-        }} onClick={() => jumpTo(move)}>{description}</button>
+        <button 
+          className={`w-full px-3 py-2 text-left border-b border-gray-200 hover:bg-gray-100
+            ${isCurrentMove ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'}`}
+          onClick={() => jumpTo(move)}
+        >
+          {description}
+        </button>
       </li>
     );
-  });
+  }).filter(Boolean);
 
   return (
-    <div className="game">
-      <div className="sui"></div>
-      <div className="game-board">
+    <div className="h-screen bg-white overflow-hidden flex">
+      {/* Left Spacer - Same width as sidebar for perfect centering */}
+      <div className="w-80"></div>
+      
+      {/* Main Game Area - fixed width in center */}
+      <div className="flex-1 flex flex-col items-center justify-center">
+        <h1 className="text-4xl font-bold text-gray-800 mb-8">
+          Tic Tac Toe
+        </h1>
+        
+        {/* Game Board */}
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        
+        {/* Game Start Button */}
+        <button 
+          className="mt-8 px-6 py-3 bg-blue-500 text-white font-medium hover:bg-blue-600 border border-blue-500 hover:border-blue-600"
+          onClick={resetGame}
+        >
+          New Game
+        </button>
       </div>
-      <div className="game-info">
-        <ol className="move-list">{moves}</ol>
+      
+      {/* Move History Sidebar */}
+      <div className="w-80 bg-gray-50 border-l border-gray-200 p-6">
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+          Move History
+        </h2>
+        <div className="h-full overflow-y-auto">
+          <ul>
+            {moves.length > 0 ? moves : (
+              <li className="text-gray-500 italic">No moves yet</li>
+            )}
+          </ul>
+        </div>
       </div>
     </div>
   );

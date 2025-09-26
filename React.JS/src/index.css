@@ -1,67 +1,12 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-.square {
-  width: 120px;
-  height: 120px;
-  font-size: 2rem;
-  margin: 4px;
-  cursor: pointer;
-  display: inline-flex;      
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  vertical-align: top;     
-
-}
-
-.board-row {
-  display: flex;
-}
-
+/* Custom styles - keeping only what's necessary */
 body {
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f0f0f0;
-  flex-direction: column;
-}
-
-.game {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-.sui{
-  width: 20rem;
-}
-
-.game-info {
-  width: 20rem;
-}
-
-.game-board {
-  margin: 0 20rem 0 20rem;
-}
-.move-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-.status {
-  font-size: 1.5rem;
-  text-align: center;
-  margin-bottom: 1.2rem;
-}
-
-h1 {
-  text-align: center;
-  font-size: 4rem;
-  font-weight: bold;  
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
